@@ -142,11 +142,11 @@ export default function Home() {
         />
         <div className="flex flex-row justify-center items-center gap-2">
           <button
-            className="px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 w-1/2 bg-blue-800 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="submit"
             onClick={handleSubmit}
           >
-            {editingId ? "Update Mailing" : "Schedule Mailing"}
+            {editingId ? "Update" : "Schedule Mailing"}
           </button>
           {editingId && (
             <button
@@ -156,9 +156,9 @@ export default function Home() {
                 setSelectedList("");
                 setScheduleDate("");
               }}
-              className="mt-2 bg-gray-400 text-white p-2 rounded w-full"
+              className="px-4 py-2 bg-red-500 text-white rounded w-1/2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
             >
-              Cancel Edit
+              Cancel
             </button>
           )}
         </div>

@@ -1,10 +1,10 @@
 let mailings = [];
 export async function PATCH(req, { params }) {
     // Update an existing mailing
-    const { id } = params;
+    const { id } = await params;
     const { mailerId, listId, schedule } = await req.json();
   
-    const index = mailings.findIndex((m) => m.id == Number(id));
+    const index = mailings.findIndex((m) => m.id === id);
     if (index === -1) {
       return new Response(
         JSON.stringify({ message: "Not Found" }),
@@ -22,10 +22,9 @@ export async function PATCH(req, { params }) {
   
   export async function DELETE(req, { params }) {
     // Delete a mailing by ID
-    const { id } = params;
-    console.log("Request ID:", id); // Check the id from the URL
+    const { id } = await params;
 
-    mailings = mailings.filter((m) => m.id != Number(id));
+    mailings = mailings.filter((m) => m.id != id);
   
     return new Response(
       JSON.stringify({ message: "Deleted" }),
