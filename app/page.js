@@ -61,6 +61,9 @@ export default function Home() {
       if (res.ok) {
         alert("Mailing updated successfully!");
         setEditingId(null);
+        setSelectedMailer("");
+        setSelectedList("");
+        setScheduleDate("");
       } else {
         alert("Failed to update mailing");
       }
@@ -74,6 +77,9 @@ export default function Home() {
 
       if (res.ok) {
         alert("Mailing scheduled successfully!");
+        setSelectedMailer("");
+        setSelectedList("");
+        setScheduleDate("");
       } else {
         alert("Failed to schedule mailing");
       }
