@@ -55,13 +55,11 @@ export default function Home() {
 
     if (editingId) {
       // Update an existing mailing
-      console.log("inside if")
       const res = await fetch(`/api/mailings/${editingId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(scheduleData),
       });
-      console.log("inside if")
       if (res.ok) {
         console.log("inside if2")
         alert("Mailing updated successfully!");
@@ -71,7 +69,6 @@ export default function Home() {
       }
     } else {
       // Create a new mailing
-      console.log("inside else")
       const res = await fetch("/api/mailings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
