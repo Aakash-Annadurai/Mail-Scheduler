@@ -39,8 +39,8 @@ export default function Home() {
       console.error("Error fetching data:", error);
     }
   };
-  const handleSubmit = async () => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+    
     console.log('submit')
     if (!selectedMailer || !selectedList || !scheduleDate) {
       alert("Please select all fields");
@@ -84,8 +84,8 @@ export default function Home() {
         alert("Failed to schedule mailing");
       }
     }
-
-    // fetchData();
+    e.preventDefault();
+    fetchData();
   };
 
   const handleEdit = (mailing) => {
@@ -108,7 +108,7 @@ export default function Home() {
       <h2 className="block text-xl font-bold">
         {editingId ? "Edit Mailing" : "Schedule a Mailing"}
       </h2>
-      <form className="flex flex-col gap-3 w-3/2">
+      <div className="flex flex-col gap-3 w-3/2">
         <label className="block text-sm font-semibold">Mailers</label>
         <select
           aria-placeholder="select mailers"
@@ -150,7 +150,7 @@ export default function Home() {
           <button
             className="px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="submit"
-            onClick={()=> handleSubmit}
+            onClick={ handleSubmit}
           >
             {editingId ? "Update Mailing" : "Schedule Mailing"}
           </button>
@@ -168,7 +168,7 @@ export default function Home() {
             </button>
           )}
         </div>
-      </form>
+      </div>
       <h3 className="text-xl font-semibold mt-6">Scheduled Mailings</h3>
       <table className="w-1/2 table-auto border-collapse">
         <thead>
@@ -178,15 +178,18 @@ export default function Home() {
             <th className="px-4 py-2 border-b text-center">
               Schedule Date and Time
             </th>
+            <th className="px-4 py-2 border-b text-center">
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
           {scheduledMailings && scheduledMailings?.map((m) => (
             <tr key={m.id}>
               <td className="px-4 py-2 border-b text-center">
-                {m.mailers.name}
+                {m.mailerId}
               </td>
-              <td className="px-4 py-2 border-b text-center">{m.lists.name}</td>
+              <td className="px-4 py-2 border-b text-center">{m.listId}</td>
               <td className="px-4 py-2 border-b text-center">{m.schedule}</td>
               <td className="px-4 py-2 border-b text-center">
                 <button
