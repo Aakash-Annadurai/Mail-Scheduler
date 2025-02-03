@@ -40,8 +40,6 @@ export default function Home() {
     }
   };
   const handleSubmit = async (e) => {
-    
-    console.log('submit')
     if (!selectedMailer || !selectedList || !scheduleDate) {
       alert("Please select all fields");
       return;
@@ -55,15 +53,12 @@ export default function Home() {
 
     if (editingId) {
       // Update an existing mailing
-      console.log("inside if")
       const res = await fetch(`/api/mailings/${editingId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(scheduleData),
       });
-      console.log("inside if")
       if (res.ok) {
-        console.log("inside if2")
         alert("Mailing updated successfully!");
         setEditingId(null);
       } else {
@@ -71,7 +66,6 @@ export default function Home() {
       }
     } else {
       // Create a new mailing
-      console.log("inside else")
       const res = await fetch("/api/mailings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -95,8 +89,8 @@ export default function Home() {
     setEditingId(mailing.id); // Set editing mode
   };
 
-  const handleDelete = async (id) => {
-    const res = await fetch(`/api/mailings/${id}`, { method: "DELETE" });
+  const handleDelete = async (deleteid) => {
+    const res = await fetch(`/api/mailings/${deleteid}`, { method: "DELETE" });
 
     if (res.ok) {
       alert("Mailing deleted");
@@ -104,11 +98,11 @@ export default function Home() {
     }
   };
   return (
-    <div className=" flex flex-col gap-5 w-full h-screen items-center justify-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+    <div className=" flex flex-col gap-5 w-full h-auto p-10 items-center justify-center min-h-screen font-[family-name:var(--font-geist-sans)]">
       <h2 className="block text-xl font-bold">
         {editingId ? "Edit Mailing" : "Schedule a Mailing"}
       </h2>
-      <div className="flex flex-col gap-3 w-3/2">
+      <div className="flex flex-col gap-3 w-3/2 h-auto">
         <label className="block text-sm font-semibold">Mailers</label>
         <select
           aria-placeholder="select mailers"
@@ -118,7 +112,7 @@ export default function Home() {
         >
           <option value="">-- Select --</option>
           {mailers.map((m) => (
-            <option key={m.id} value={m.id}>
+            <option key={m.id} value={m.name}>
               {m.name}
             </option>
           ))}
@@ -132,7 +126,7 @@ export default function Home() {
         >
           <option value="">-- Select --</option>
           {lists.map((l) => (
-            <option key={l.id} value={l.id}>
+            <option key={l.id} value={l.name}>
               {l.name}
             </option>
           ))}
@@ -150,7 +144,7 @@ export default function Home() {
           <button
             className="px-4 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="submit"
-            onClick={ handleSubmit}
+            onClick={handleSubmit}
           >
             {editingId ? "Update Mailing" : "Schedule Mailing"}
           </button>
@@ -178,35 +172,32 @@ export default function Home() {
             <th className="px-4 py-2 border-b text-center">
               Schedule Date and Time
             </th>
-            <th className="px-4 py-2 border-b text-center">
-              Action
-            </th>
+            <th className="px-4 py-2 border-b text-center">Action</th>
           </tr>
         </thead>
         <tbody>
-          {scheduledMailings && scheduledMailings?.map((m) => (
-            <tr key={m.id}>
-              <td className="px-4 py-2 border-b text-center">
-                {m.mailerId}
-              </td>
-              <td className="px-4 py-2 border-b text-center">{m.listId}</td>
-              <td className="px-4 py-2 border-b text-center">{m.schedule}</td>
-              <td className="px-4 py-2 border-b text-center">
-                <button
-                  onClick={() => handleEdit(m)}
-                  className="text-blue-500 mr-2"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(m.id)}
-                  className="text-red-500"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
+          {scheduledMailings &&
+            scheduledMailings?.map((m) => (
+              <tr key={m.id}>
+                <td className="px-4 py-2 border-b text-center">{m.mailerId}</td>
+                <td className="px-4 py-2 border-b text-center">{m.listId}</td>
+                <td className="px-4 py-2 border-b text-center">{m.schedule}</td>
+                <td className="px-4 py-2 border-b text-center">
+                  <button
+                    onClick={() => handleEdit(m)}
+                    className="text-blue-500 mr-2"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(m.id)}
+                    className="text-red-500"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
